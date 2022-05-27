@@ -48,5 +48,28 @@ namespace ChapeauDAL
                 return (T)obj;
             }
         }
+        public void CreateCompleteOrder(List<OrderItem> orderedItem, Reservation reservation, string comments)
+        {
+            string query = "INSERT INTO [Order](reservation_Id, table_Id, isFinished, timePlaced, comments) VALUES (@reservationId, @tableId, 0, @currentTime, @comments);";
+            SqlParameter[] sqlParameters = new SqlParameter[4]
+            {
+                new SqlParameter("@reservationId", reservation.ReservationId),
+                new SqlParameter("@tableId", reservation.TableId),
+                new SqlParameter("@currentTime", DateTime.Now),
+                new SqlParameter("@comments", comments),
+            };
+            ExecuteEditQuery(query, sqlParameters);
+            foreach (OrderItem orderItem in orderedItem)
+            {
+                query = "INSERT INTO[order_Item](order_id, menuItem_Id, amount) VALUES((SELECT TOP 1 order_id FROM [Order] ORDER BY order_id DESC), @menuItemId, @amount);";
+                sqlParameters = new SqlParameter[3]
+                {
+                     new SqlParameter("@orderId", 7),
+                     new SqlParameter("@menuItemId", orderItem.MenuItemID),
+                     new SqlParameter("@amount", orderItem.Amount),
+                };
+                ExecuteEditQuery(query, sqlParameters);
+            }
+        }
     }
 }

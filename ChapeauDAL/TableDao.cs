@@ -30,12 +30,23 @@ namespace ChapeauDAL
                     IsOccupied = (bool)dr["isOccupied"],
                     IsReserverd = (bool)dr["isReserved"],
                     AmountOfSeats = (int)dr["amountOfSeats"],
-                    WaiterID = (int)dr["Waiter_ID"],
-                    Description = (string)dr["description"],
+                    WaiterID = ConvertFromDR<int>(dr["Waiter_ID"]),
+                    Description = Convert.ToString(dr["description"]),
                 };
                 tables.Add(table);
             }
             return tables;
+        }
+        private T ConvertFromDR<T>(object obj)
+        {
+            if (obj == DBNull.Value)
+            {
+                return default(T);
+            }
+            else
+            {
+                return (T)obj;
+            }
         }
     }
 }

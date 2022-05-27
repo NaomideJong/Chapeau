@@ -19,6 +19,10 @@ namespace ChapeauLogic
         {
             return orderDao.GetActiveOrders();
         }
+        public void CreateCompleteOrder(List<OrderItem> orderedItem, Reservation reservation, string comments)
+        {
+            orderDao.CreateCompleteOrder(orderedItem, reservation, comments);
+        }
     }
 }
 

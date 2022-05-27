@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChapeauLogic
 {
-    class TableService
+    public class TableService
     {
         TableDao tabledb;
 
@@ -17,7 +17,7 @@ namespace ChapeauLogic
             tabledb = new TableDao();
         }
 
-        public List<Table> GetBills()
+        public List<Table> GetTables()
         {
             List<Table> tables = tabledb.GetAllTables();
             return tables;
