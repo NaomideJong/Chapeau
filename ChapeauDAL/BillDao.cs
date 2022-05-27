@@ -41,11 +41,11 @@ namespace ChapeauDAL
                     BillID = (int)dr["bill_Id"],
                     TableID = (int)dr["table_Id"],
                     StaffID = (int)dr["staff_ID"],
-                    TotalPriceInclVAT = (decimal)dr["totalPriceInclVAT"],
-                    TotalPriceExclVAT = (decimal)dr["totalPriceExclVAT"],
-                    Tip = (decimal)dr["tip"],
+                    TotalPriceInclVAT = (double)dr["totalPriceInclVAT"],
+                    TotalPriceExclVAT = (double)dr["totalPriceExclVAT"],
+                    Tip = (double)dr["tip"],
                     IsPaid = (bool)dr["isPaid"],
-                    Discount = (decimal)dr["discount"],
+                    Discount = (double)dr["discount"],
                     Date = (DateTime)dr["currentDate"],
                     Comments = (string)dr["comments"]
                 };
