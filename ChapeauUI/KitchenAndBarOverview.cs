@@ -110,20 +110,17 @@ namespace ChapeauUI
 
         private void KitchenOverview_Load(object sender, EventArgs e)
         {
-            if (radioButtonKitchen.Checked)
-            {
-                System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
-                timer1.Interval = 30000;//30 seconds
-                timer1.Tick += new System.EventHandler(timer1_Tick);
-                timer1.Start();
-            }
-            else if (radioButtonBar.Checked)
-            {
-                System.Windows.Forms.Timer timer2 = new System.Windows.Forms.Timer();
-                timer2.Interval = 30000;//30 seconds
-                timer2.Tick += new System.EventHandler(timer2_Tick);
-                timer2.Start();
-            }
+
+            System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
+            timer1.Interval = 30000;//30 seconds
+            timer1.Tick += new System.EventHandler(timer1_Tick);
+            timer1.Start();
+
+            System.Windows.Forms.Timer timer2 = new System.Windows.Forms.Timer();
+            timer2.Interval = 30000;//30 seconds
+            timer2.Tick += new System.EventHandler(timer2_Tick);
+            timer2.Start();
+            
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -218,6 +215,7 @@ namespace ChapeauUI
 
         private void radioButtonKitchen_CheckedChanged(object sender, EventArgs e)
         {
+
             kitchenListView.Show();
             labelKitchen.Show();
             finishedFoodButton.Show();
@@ -229,6 +227,7 @@ namespace ChapeauUI
 
         private void radioButtonBar_CheckedChanged(object sender, EventArgs e)
         {
+
             kitchenListView.Hide();
             labelKitchen.Hide();
             finishedFoodButton.Hide();
