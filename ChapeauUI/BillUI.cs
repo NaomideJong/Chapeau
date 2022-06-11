@@ -154,7 +154,6 @@ namespace ChapeauUI
 
         private void Pay(PaymentMethod method)
         {
-            remainingAmount = totalPrice;
             double amount = remainingAmount;
             try
             {
