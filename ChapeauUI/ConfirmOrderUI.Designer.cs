@@ -84,7 +84,7 @@ namespace ChapeauUI
             this.labelOrderConfirmed.Font = new System.Drawing.Font("Trebuchet MS", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelOrderConfirmed.Location = new System.Drawing.Point(32, 26);
             this.labelOrderConfirmed.Name = "labelOrderConfirmed";
-            this.labelOrderConfirmed.Size = new System.Drawing.Size(596, 279);
+            this.labelOrderConfirmed.Size = new System.Drawing.Size(596, 288);
             this.labelOrderConfirmed.TabIndex = 3;
             this.labelOrderConfirmed.Text = "ORDER HAS BEEN SEND";
             this.labelOrderConfirmed.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -104,10 +104,9 @@ namespace ChapeauUI
             // 
             // textBoxInput
             // 
-            this.textBoxInput.Font = new System.Drawing.Font("Trebuchet MS", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBoxInput.Location = new System.Drawing.Point(71, 152);
+            this.textBoxInput.Location = new System.Drawing.Point(102, 176);
             this.textBoxInput.Name = "textBoxInput";
-            this.textBoxInput.Size = new System.Drawing.Size(511, 38);
+            this.textBoxInput.Size = new System.Drawing.Size(480, 27);
             this.textBoxInput.TabIndex = 5;
             this.textBoxInput.Visible = false;
             // 
@@ -118,7 +117,7 @@ namespace ChapeauUI
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
             this.BackgroundImage = global::ChapeauUI.Properties.Resources.confirm_order;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(653, 323);
             this.Controls.Add(this.textBoxInput);
             this.Controls.Add(this.ReturnButton);

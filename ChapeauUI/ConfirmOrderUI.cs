@@ -14,15 +14,12 @@ namespace ChapeauUI
 {
     public partial class ConfirmOrderUI : Form
     {
-        //DONT FORGET TO RENAME CLASS
-       
         public ConfirmOrderUI()
         {
             InitializeComponent();
             ReturnButton.DialogResult = DialogResult.Yes;
             DenyButton.DialogResult = DialogResult.No;
         }
-
         public ConfirmOrderUI(string question)
         {
             InitializeComponent();
@@ -31,7 +28,6 @@ namespace ChapeauUI
             labelQuestion.Visible = true;
             labelQuestion.Text = question.ToUpper();
         }
-
         public ConfirmOrderUI(string question, DialogResult dialogResult)
         {
             InitializeComponent();
@@ -58,11 +54,19 @@ namespace ChapeauUI
                     break;
             }
         }
+        public ConfirmOrderUI(string question, double priceInclVAT)
+        {
+            InitializeComponent();
+            ConfirmButton.DialogResult = DialogResult.Yes;
+            DenyButton.DialogResult = DialogResult.No;
+            labelQuestion.Visible = true;
+            labelQuestion.Text = question.ToUpper();
+        }
 
         public double InputDouble()
         {
             double input = 0;
-            if (denied)
+            if(denied)
             {
                 this.Close();
             }
@@ -84,6 +88,14 @@ namespace ChapeauUI
                     if (double.Parse(textBoxInput.Text) <= 0)
                     {
                         throw new Exception("Please fill in a tip above 0");
+                    }
+                    else if (double.Parse(textBoxInput.Text) <= 0)
+                    {
+                        throw new Exception("Please fill in a tip above 0");
+                    }
+                    else
+                    {
+                        throw new Exception("Please enter a number");
                     }
                 }
                 catch (Exception ex)
@@ -116,4 +128,3 @@ namespace ChapeauUI
         }
     }
 }
-
