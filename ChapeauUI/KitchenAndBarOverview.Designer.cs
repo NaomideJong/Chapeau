@@ -223,7 +223,7 @@ namespace ChapeauUI
             this.sortButtonDuration.FlatAppearance.BorderSize = 4;
             this.sortButtonDuration.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.sortButtonDuration.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.sortButtonDuration.Location = new System.Drawing.Point(1750, 450);
+            this.sortButtonDuration.Location = new System.Drawing.Point(1553, 450);
             this.sortButtonDuration.Name = "sortButtonDuration";
             this.sortButtonDuration.Size = new System.Drawing.Size(126, 63);
             this.sortButtonDuration.TabIndex = 20;
@@ -291,7 +291,7 @@ namespace ChapeauUI
             this.sortButtonByAlcoholic.FlatAppearance.BorderSize = 4;
             this.sortButtonByAlcoholic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.sortButtonByAlcoholic.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.sortButtonByAlcoholic.Location = new System.Drawing.Point(1558, 450);
+            this.sortButtonByAlcoholic.Location = new System.Drawing.Point(1750, 450);
             this.sortButtonByAlcoholic.Name = "sortButtonByAlcoholic";
             this.sortButtonByAlcoholic.Size = new System.Drawing.Size(126, 63);
             this.sortButtonByAlcoholic.TabIndex = 32;
