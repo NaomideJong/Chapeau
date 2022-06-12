@@ -16,21 +16,21 @@ namespace ChapeauDAL
         }
         public void AddBill(Bill bill)
         {   
-            string query = "INSERT INTO [Bill] VALUES " +
-            "(@table_Id, @staff_ID, @totalPriceInclVAT, @totalPriceExclVAT, @totalVAT, " +
+            string query = "INSERT INTO [Bill] (table_Id, staff_ID, totalPriceInclVAT, totalPriceExclVAT, " +
+            "tip, isPaid, discount, currentDate, comments, paymentMethod) " +
+            "VALUES (@table_Id, @staff_ID, @totalPriceInclVAT, @totalPriceExclVAT, " +
             "@tip, @isPaid, @discount, @currentDate, @comments, @paymentMethod);";
-            SqlParameter[] sqlParameters = new SqlParameter[11];
+            SqlParameter[] sqlParameters = new SqlParameter[10];
             sqlParameters[0] = new SqlParameter("@table_Id", bill.Table.TableID);
             sqlParameters[1] = new SqlParameter("@staff_ID", bill.Table.WaiterID);
             sqlParameters[2] = new SqlParameter("@totalPriceInclVAT", bill.TotalPriceInclVAT);
             sqlParameters[3] = new SqlParameter("@totalPriceExclVAT", bill.TotalPriceExclVAT);
-            sqlParameters[4] = new SqlParameter("@totalVAT", bill.TotalVAT);
-            sqlParameters[5] = new SqlParameter("@tip", bill.Tip);
-            sqlParameters[6] = new SqlParameter("@isPaid", bill.IsPaid);
-            sqlParameters[7] = new SqlParameter("@discount", bill.Discount);
-            sqlParameters[8] = new SqlParameter("@currentDate", bill.Date);
-            sqlParameters[9] = new SqlParameter("@comments", bill.Comments);
-            sqlParameters[10] = new SqlParameter("@paymentMethod", (int)bill.PaymentMethod);
+            sqlParameters[4] = new SqlParameter("@tip", bill.Tip);
+            sqlParameters[5] = new SqlParameter("@isPaid", bill.IsPaid);
+            sqlParameters[6] = new SqlParameter("@discount", bill.Discount);
+            sqlParameters[7] = new SqlParameter("@currentDate", bill.Date);
+            sqlParameters[8] = new SqlParameter("@comments", bill.Comments);
+            sqlParameters[9] = new SqlParameter("@paymentMethod", (int)bill.PaymentMethod);
             ExecuteEditQuery(query, sqlParameters);
         }
        

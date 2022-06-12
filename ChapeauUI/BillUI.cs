@@ -19,7 +19,7 @@ namespace ChapeauUI
     {
         private BillService billService;
         private Bill bill;
-        private ConfirmOrderUI confirmBox;
+        private PopUpUI confirmBox;
         private Reservation reservation;
         private Staff staff;
         private PaymentMethod paymentMethod;
@@ -27,7 +27,6 @@ namespace ChapeauUI
         private double tip;
         private double remainingAmount;
         private double change;
-        private string comment;
 
         public BillUI(Reservation reservation, Staff staff)
         {
@@ -49,28 +48,25 @@ namespace ChapeauUI
             billService = new BillService();
             bill = billService.MakeBill(reservation.ReservationId);
             totalPrice = bill.TotalPriceInclVAT;
-            labelExVAT.Text = totalPrice.ToString("€ 0.00");
+            labelExVAT.Text = bill.TotalPriceExclVAT.ToString("€ 0.00");
             labelVAT.Text = bill.TotalVAT.ToString("€ 0.00");
             labelInVAT.Text = bill.TotalPriceInclVAT.ToString("€ 0.00");
             FillGrid(billGrid);
         }
-
         private void buttonTip_Click(object sender, EventArgs e)
         {
           
-            confirmBox = new ConfirmOrderUI("Do you want to add a tip?", DialogResult.None);
+            confirmBox = new PopUpUI("Do you want to add a tip?", DialogResult.None);
             confirmBox.ShowDialog();
             tip = confirmBox.InputDouble();
             labelTip.Text = tip.ToString("€ 0.00");
             totalPrice = totalPrice + tip;
             labelInVAT.Text = totalPrice.ToString("€ 0.00");   
         }
-
         private void buttonBack_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void ShowBill()
         {
             payPanel.Hide();
@@ -134,21 +130,10 @@ namespace ChapeauUI
 
         private void buttonCash_Click(object sender, EventArgs e)
         {
-            if (paymentMethod == PaymentMethod.CARD || paymentMethod == PaymentMethod.CASHANDCARD)
-                paymentMethod = PaymentMethod.CASHANDCARD;
-
-            else paymentMethod = PaymentMethod.CASH;
-
             Pay(PaymentMethod.CASH);
         }
-
         private void buttonPin_Click(object sender, EventArgs e)
         {
-            if(paymentMethod == PaymentMethod.CASH || paymentMethod == PaymentMethod.CASHANDCARD)
-                paymentMethod = PaymentMethod.CASHANDCARD;
-
-            else paymentMethod = PaymentMethod.CASH;
-
             Pay(PaymentMethod.CARD);
         }
 
@@ -159,30 +144,32 @@ namespace ChapeauUI
             {
                 if (amountInput.Text != "")
                 {
-                    amount = double.Parse(amountInput.Text);
+                    amount = double.Parse(amountInput.Text.Replace('.', ','));
                 }
-                confirmBox = new ConfirmOrderUI($"Do you want to pay €{amount:0.00} with {method}?");
+                confirmBox = new PopUpUI($"Do you want to pay €{amount:0.00} with {method}?");
                 confirmBox.ShowDialog();
                 if (confirmBox.DialogResult == DialogResult.Yes)
                 {
                     remainingAmount -= amount;
 
+                    SetPayment(method);
+
                     if (remainingAmount == 0)
                     {
-                        confirmBox = new ConfirmOrderUI($"Payment completed!", DialogResult.OK);
+                        confirmBox = new PopUpUI($"Payment completed!", DialogResult.OK);
                         confirmBox.ShowDialog();
                         ShowBill();
                     }
                     else if (remainingAmount < 0 && method == PaymentMethod.CASH)
                     {
                         change = remainingAmount * -1;
-                        confirmBox = new ConfirmOrderUI($"Payment completed!\nChange:\n€{change:0.00}", DialogResult.OK);
+                        confirmBox = new PopUpUI($"Payment completed!\nChange:\n€{change:0.00}", DialogResult.OK);
                         confirmBox.ShowDialog();
                         ShowBill();
                     }
                     else if(remainingAmount < 0 && method == PaymentMethod.CARD)
                     {
-                        confirmBox = new ConfirmOrderUI($"Payment too high", DialogResult.OK);
+                        confirmBox = new PopUpUI($"Payment too high", DialogResult.OK);
                         confirmBox.ShowDialog();
                         remainingAmount += amount;
                     }
@@ -192,19 +179,33 @@ namespace ChapeauUI
             }
             catch
             {
-                throw new Exception("Please enter a number");
+                confirmBox = new PopUpUI("Please enter a number", DialogResult.OK);
+                confirmBox.ShowDialog();
             }
+        }
+        private void SetPayment(PaymentMethod method)
+        {
+            if (paymentMethod == PaymentMethod.NotSelected)
+                paymentMethod = method;
+
+            else paymentMethod = PaymentMethod.CASHANDCARD;
         }
 
         private void LogBill()
         {
-            bill.Table.TableID = reservation.TableId;
-            bill.Table.WaiterID = staff.Staff_ID;
-            bill.Tip = tip;
-            bill.IsPaid = true;
-            bill.Date = DateTime.Now;
-            bill.Comments = comment;
-            bill.PaymentMethod = paymentMethod;
+            bill = new Bill()
+            {
+                Table = new Table()
+                {
+                    TableID = reservation.TableId,
+                    WaiterID = staff.Staff_ID,
+                },
+                Tip = tip,
+                IsPaid = true,
+                Date = DateTime.Now,
+                Comments = commentBox.Text,
+                PaymentMethod = paymentMethod,
+            };
             billService.AddBill(bill);
             billService.FinishReservarion(reservation.ReservationId);
         }
@@ -212,6 +213,5 @@ namespace ChapeauUI
         {
             this.Close();
         }
-
     }
 }

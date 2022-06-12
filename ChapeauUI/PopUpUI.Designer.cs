@@ -1,7 +1,7 @@
 ﻿
 namespace ChapeauUI
 {
-    partial class ConfirmOrderUI
+    partial class PopUpUI
     {
         /// <summary>
         /// Required designer variable.

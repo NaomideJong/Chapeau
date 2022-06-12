@@ -12,15 +12,18 @@ using Microsoft.VisualBasic;
 
 namespace ChapeauUI
 {
-    public partial class ConfirmOrderUI : Form
+    public partial class PopUpUI : Form
     {
-        public ConfirmOrderUI()
+        //DONT FORGET TO RENAME CLASS
+       
+        public PopUpUI()
         {
             InitializeComponent();
             ReturnButton.DialogResult = DialogResult.Yes;
             DenyButton.DialogResult = DialogResult.No;
         }
-        public ConfirmOrderUI(string question)
+
+        public PopUpUI(string question)
         {
             InitializeComponent();
             ConfirmButton.DialogResult = DialogResult.Yes;
@@ -28,7 +31,8 @@ namespace ChapeauUI
             labelQuestion.Visible = true;
             labelQuestion.Text = question.ToUpper();
         }
-        public ConfirmOrderUI(string question, DialogResult dialogResult)
+
+        public PopUpUI(string question, DialogResult dialogResult)
         {
             InitializeComponent();
             switch (dialogResult){
@@ -54,19 +58,11 @@ namespace ChapeauUI
                     break;
             }
         }
-        public ConfirmOrderUI(string question, double priceInclVAT)
-        {
-            InitializeComponent();
-            ConfirmButton.DialogResult = DialogResult.Yes;
-            DenyButton.DialogResult = DialogResult.No;
-            labelQuestion.Visible = true;
-            labelQuestion.Text = question.ToUpper();
-        }
 
         public double InputDouble()
         {
             double input = 0;
-            if(denied)
+            if (denied)
             {
                 this.Close();
             }
@@ -78,7 +74,7 @@ namespace ChapeauUI
                     {
                         if (double.Parse(textBoxInput.Text) > 0)
                         {
-                            input = double.Parse(textBoxInput.Text);
+                            input = double.Parse(textBoxInput.Text.Replace('.', ','));
                         }
                     }
                     catch
@@ -89,18 +85,10 @@ namespace ChapeauUI
                     {
                         throw new Exception("Please fill in a tip above 0");
                     }
-                    else if (double.Parse(textBoxInput.Text) <= 0)
-                    {
-                        throw new Exception("Please fill in a tip above 0");
-                    }
-                    else
-                    {
-                        throw new Exception("Please enter a number");
-                    }
                 }
                 catch (Exception ex)
                 {
-                    ConfirmOrderUI confirmOrder = new ConfirmOrderUI(ex.Message, DialogResult.OK);
+                    PopUpUI confirmOrder = new PopUpUI(ex.Message, DialogResult.OK);
                     confirmOrder.ShowDialog();
                 }
             }
@@ -128,3 +116,4 @@ namespace ChapeauUI
         }
     }
 }
+

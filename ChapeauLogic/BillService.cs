@@ -44,7 +44,6 @@ namespace ChapeauLogic
                 foreach (OrderItem item in items)
                 {
                     calculateVAT.Price = (item.Amount * item.MenuItem.Price);
-                    double currentvat = 0;
                     if (item.IsAlcoholic == true)
                     {
                         calculateVAT.VATCalculation = new CalculateHighVAT();
@@ -53,9 +52,8 @@ namespace ChapeauLogic
                     {
                         calculateVAT.VATCalculation = new CalculateLowVAT();
                     }
-                    currentvat = calculateVAT.ExecuteCalculation();
-                    vat += currentvat;
-                    totalPrice += calculateVAT.Price;
+                    vat += calculateVAT.ExecuteCalculation();
+                totalPrice += calculateVAT.Price;
                 }
 
                 bill.TotalPriceInclVAT = totalPrice;
