@@ -32,10 +32,9 @@ namespace ChapeauUI
             this.components = new System.ComponentModel.Container();
             this.labelKitchen = new System.Windows.Forms.Label();
             this.kitchenListView = new System.Windows.Forms.ListView();
-            this.finishedFoodButton = new System.Windows.Forms.Button();
+            this.finishedOrderButton = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.buttonLogOut = new System.Windows.Forms.Button();
-            this.barListView = new System.Windows.Forms.ListView();
             this.labelBar = new System.Windows.Forms.Label();
             this.finishedDrinkButton = new System.Windows.Forms.Button();
             this.labelBottomBar = new System.Windows.Forms.Label();
@@ -86,20 +85,20 @@ namespace ChapeauUI
             this.kitchenListView.UseCompatibleStateImageBehavior = false;
             this.kitchenListView.SelectedIndexChanged += new System.EventHandler(this.kitchenListview_SelectedIndexChanged);
             // 
-            // finishedFoodButton
+            // finishedOrderButton
             // 
-            this.finishedFoodButton.BackColor = System.Drawing.SystemColors.Control;
-            this.finishedFoodButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.finishedFoodButton.FlatAppearance.BorderSize = 4;
-            this.finishedFoodButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.finishedFoodButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.finishedFoodButton.Location = new System.Drawing.Point(1313, 845);
-            this.finishedFoodButton.Name = "finishedFoodButton";
-            this.finishedFoodButton.Size = new System.Drawing.Size(206, 49);
-            this.finishedFoodButton.TabIndex = 2;
-            this.finishedFoodButton.Text = "Food is ready to be served\r\n";
-            this.finishedFoodButton.UseVisualStyleBackColor = false;
-            this.finishedFoodButton.Click += new System.EventHandler(this.finishedFoodButton_Click);
+            this.finishedOrderButton.BackColor = System.Drawing.SystemColors.Control;
+            this.finishedOrderButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.finishedOrderButton.FlatAppearance.BorderSize = 4;
+            this.finishedOrderButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.finishedOrderButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.finishedOrderButton.Location = new System.Drawing.Point(1313, 845);
+            this.finishedOrderButton.Name = "finishedOrderButton";
+            this.finishedOrderButton.Size = new System.Drawing.Size(206, 59);
+            this.finishedOrderButton.TabIndex = 2;
+            this.finishedOrderButton.Text = "Order is ready to be served\r\n";
+            this.finishedOrderButton.UseVisualStyleBackColor = false;
+            this.finishedOrderButton.Click += new System.EventHandler(this.finishedOrderButton_Click);
             // 
             // buttonLogOut
             // 
@@ -113,19 +112,6 @@ namespace ChapeauUI
             this.buttonLogOut.Text = "<BACK";
             this.buttonLogOut.UseVisualStyleBackColor = false;
             this.buttonLogOut.Click += new System.EventHandler(this.buttonLogOut_Click);
-            // 
-            // barListView
-            // 
-            this.barListView.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.barListView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.barListView.HideSelection = false;
-            this.barListView.Location = new System.Drawing.Point(13, 79);
-            this.barListView.Name = "barListView";
-            this.barListView.Size = new System.Drawing.Size(1500, 750);
-            this.barListView.TabIndex = 4;
-            this.barListView.UseCompatibleStateImageBehavior = false;
-            this.barListView.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.barListView_DrawColumnHeader);
-            this.barListView.SelectedIndexChanged += new System.EventHandler(this.barListView_SelectedIndexChanged);
             // 
             // labelBar
             // 
@@ -141,18 +127,10 @@ namespace ChapeauUI
             // 
             // finishedDrinkButton
             // 
-            this.finishedDrinkButton.BackColor = System.Drawing.SystemColors.Control;
-            this.finishedDrinkButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.finishedDrinkButton.FlatAppearance.BorderSize = 4;
-            this.finishedDrinkButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.finishedDrinkButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.finishedDrinkButton.Location = new System.Drawing.Point(1313, 845);
+            this.finishedDrinkButton.Location = new System.Drawing.Point(0, 0);
             this.finishedDrinkButton.Name = "finishedDrinkButton";
-            this.finishedDrinkButton.Size = new System.Drawing.Size(206, 49);
-            this.finishedDrinkButton.TabIndex = 6;
-            this.finishedDrinkButton.Text = "Drink is ready to be served";
-            this.finishedDrinkButton.UseVisualStyleBackColor = false;
-            this.finishedDrinkButton.Click += new System.EventHandler(this.finishedDrinkButton_Click);
+            this.finishedDrinkButton.Size = new System.Drawing.Size(75, 23);
+            this.finishedDrinkButton.TabIndex = 40;
             // 
             // labelBottomBar
             // 
@@ -407,9 +385,8 @@ namespace ChapeauUI
             this.Controls.Add(this.labelBar);
             this.Controls.Add(this.labelBottomBar);
             this.Controls.Add(this.finishedDrinkButton);
-            this.Controls.Add(this.barListView);
             this.Controls.Add(this.buttonLogOut);
-            this.Controls.Add(this.finishedFoodButton);
+            this.Controls.Add(this.finishedOrderButton);
             this.Controls.Add(this.kitchenListView);
             this.Controls.Add(this.labelTopBar);
             this.DoubleBuffered = true;
@@ -426,10 +403,9 @@ namespace ChapeauUI
 
         private System.Windows.Forms.Label labelKitchen;
         private System.Windows.Forms.ListView kitchenListView;
-        private System.Windows.Forms.Button finishedFoodButton;
+        private System.Windows.Forms.Button finishedOrderButton;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button buttonLogOut;
-        private System.Windows.Forms.ListView barListView;
         private System.Windows.Forms.Label labelBar;
         private System.Windows.Forms.Button finishedDrinkButton;
         private System.Windows.Forms.Label labelBottomBar;
