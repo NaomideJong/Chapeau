@@ -109,28 +109,32 @@ namespace ChapeauUI
             listViewComments.Columns.Add("Order ID", 100);
             listViewComments.Columns.Add("Menuitem ID", 100);
             listViewComments.Columns.Add("Comments", 500);
-            List<Order> ordersList = new List<Order>();// kijk in deze for
+            List<Order> ordersList;// kijk in deze for
+            OrderService orderService = new OrderService();
+
             if (BartenderOrChef.StaffJob == StaffJob.Chef)
             {
-                ordersList = ordersFoodList;
+                ordersList = orderService.GetActiveFoodOrders();
             }
             else
             {
-                ordersList = ordersDrinkList;
+
+                ordersList = orderService.GetActiveDrinkOrders();
             }
             try
             {
 
                 for (int i = 0; i < kitchenOrBarListView.SelectedItems.Count; i++)
                 {
-
                     int correctOrderIndex = ordersList.FindIndex(x => x.OrderId == Convert.ToInt32(kitchenOrBarListView.SelectedItems[i].SubItems[0].Text));
                     ListViewItem li = new ListViewItem(kitchenOrBarListView.SelectedItems[i].SubItems[0].Text);
                     li.SubItems.Add(kitchenOrBarListView.SelectedItems[i].SubItems[1].Text);
                     li.SubItems.Add(ordersList[correctOrderIndex].Comments);
 
+                    listViewComments.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    listViewComments.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    listViewComments.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.HeaderSize);
 
-                    listViewComments.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
                     listViewComments.Items.Add(li);
                 }
             }
@@ -178,6 +182,8 @@ namespace ChapeauUI
                     li.SubItems.Add(order.TableId.ToString());
                     li.SubItems.Add(timeOfOrder.ToString(@"hh\:mm"));
                     li.SubItems.Add(order.TimePlaced.ToString());
+                    li.Tag = order;
+
                     if (BartenderOrChef.StaffJob == StaffJob.Chef)
                         li.SubItems.Add(order.OrderItems[i].MenuItem.MenuItemType.ToString());
                     else
@@ -189,8 +195,7 @@ namespace ChapeauUI
                     kitchenOrBarListView.AutoResizeColumn(4, ColumnHeaderAutoResizeStyle.HeaderSize);
                     kitchenOrBarListView.AutoResizeColumn(5, ColumnHeaderAutoResizeStyle.HeaderSize);
                     kitchenOrBarListView.AutoResizeColumn(6, ColumnHeaderAutoResizeStyle.HeaderSize);
-                   // kitchenListView.AutoResizeColumn(7, ColumnHeaderAutoResizeStyle.HeaderSize);
-
+                    // kitchenListView.AutoResizeColumn(7, ColumnHeaderAutoResizeStyle.HeaderSize);
 
                     kitchenOrBarListView.Items.Add(li);
                 }
