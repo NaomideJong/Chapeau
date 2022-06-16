@@ -30,13 +30,11 @@ namespace ChapeauUI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.labelKitchen = new System.Windows.Forms.Label();
-            this.kitchenListView = new System.Windows.Forms.ListView();
+            this.labelKitchenOrBar = new System.Windows.Forms.Label();
+            this.kitchenOrBarListView = new System.Windows.Forms.ListView();
             this.finishedOrderButton = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.buttonLogOut = new System.Windows.Forms.Button();
-            this.labelBar = new System.Windows.Forms.Label();
-            this.finishedDrinkButton = new System.Windows.Forms.Button();
             this.labelBottomBar = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.labelTopBar = new System.Windows.Forms.Label();
@@ -59,31 +57,31 @@ namespace ChapeauUI
             this.SelectAllMenuItemType = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // labelKitchen
+            // labelKitchenOrBar
             // 
-            this.labelKitchen.AutoSize = true;
-            this.labelKitchen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.labelKitchen.Font = new System.Drawing.Font("Trebuchet MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelKitchen.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.labelKitchen.Location = new System.Drawing.Point(13, 9);
-            this.labelKitchen.Name = "labelKitchen";
-            this.labelKitchen.Size = new System.Drawing.Size(117, 38);
-            this.labelKitchen.TabIndex = 0;
-            this.labelKitchen.Text = "Kitchen";
+            this.labelKitchenOrBar.AutoSize = true;
+            this.labelKitchenOrBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.labelKitchenOrBar.Font = new System.Drawing.Font("Trebuchet MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelKitchenOrBar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.labelKitchenOrBar.Location = new System.Drawing.Point(12, 9);
+            this.labelKitchenOrBar.Name = "labelKitchenOrBar";
+            this.labelKitchenOrBar.Size = new System.Drawing.Size(73, 38);
+            this.labelKitchenOrBar.TabIndex = 0;
+            this.labelKitchenOrBar.Text = "Text";
             // 
-            // kitchenListView
+            // kitchenOrBarListView
             // 
-            this.kitchenListView.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.kitchenListView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.kitchenListView.FullRowSelect = true;
-            this.kitchenListView.HideSelection = false;
-            this.kitchenListView.Location = new System.Drawing.Point(13, 79);
-            this.kitchenListView.Name = "kitchenListView";
-            this.kitchenListView.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.kitchenListView.Size = new System.Drawing.Size(1500, 750);
-            this.kitchenListView.TabIndex = 1;
-            this.kitchenListView.UseCompatibleStateImageBehavior = false;
-            this.kitchenListView.SelectedIndexChanged += new System.EventHandler(this.kitchenListview_SelectedIndexChanged);
+            this.kitchenOrBarListView.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.kitchenOrBarListView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.kitchenOrBarListView.FullRowSelect = true;
+            this.kitchenOrBarListView.HideSelection = false;
+            this.kitchenOrBarListView.Location = new System.Drawing.Point(13, 79);
+            this.kitchenOrBarListView.Name = "kitchenOrBarListView";
+            this.kitchenOrBarListView.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.kitchenOrBarListView.Size = new System.Drawing.Size(1500, 750);
+            this.kitchenOrBarListView.TabIndex = 1;
+            this.kitchenOrBarListView.UseCompatibleStateImageBehavior = false;
+            this.kitchenOrBarListView.SelectedIndexChanged += new System.EventHandler(this.kitchenOrBarListView_SelectedIndexChanged);
             // 
             // finishedOrderButton
             // 
@@ -112,25 +110,6 @@ namespace ChapeauUI
             this.buttonLogOut.Text = "<BACK";
             this.buttonLogOut.UseVisualStyleBackColor = false;
             this.buttonLogOut.Click += new System.EventHandler(this.buttonLogOut_Click);
-            // 
-            // labelBar
-            // 
-            this.labelBar.AutoSize = true;
-            this.labelBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.labelBar.Font = new System.Drawing.Font("Trebuchet MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelBar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.labelBar.Location = new System.Drawing.Point(12, 9);
-            this.labelBar.Name = "labelBar";
-            this.labelBar.Size = new System.Drawing.Size(62, 38);
-            this.labelBar.TabIndex = 5;
-            this.labelBar.Text = "Bar";
-            // 
-            // finishedDrinkButton
-            // 
-            this.finishedDrinkButton.Location = new System.Drawing.Point(0, 0);
-            this.finishedDrinkButton.Name = "finishedDrinkButton";
-            this.finishedDrinkButton.Size = new System.Drawing.Size(75, 23);
-            this.finishedDrinkButton.TabIndex = 40;
             // 
             // labelBottomBar
             // 
@@ -381,13 +360,11 @@ namespace ChapeauUI
             this.Controls.Add(this.sortButtonTable);
             this.Controls.Add(this.sortButtonAmount);
             this.Controls.Add(this.sortButtonOrder);
-            this.Controls.Add(this.labelKitchen);
-            this.Controls.Add(this.labelBar);
+            this.Controls.Add(this.labelKitchenOrBar);
             this.Controls.Add(this.labelBottomBar);
-            this.Controls.Add(this.finishedDrinkButton);
             this.Controls.Add(this.buttonLogOut);
             this.Controls.Add(this.finishedOrderButton);
-            this.Controls.Add(this.kitchenListView);
+            this.Controls.Add(this.kitchenOrBarListView);
             this.Controls.Add(this.labelTopBar);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -401,13 +378,11 @@ namespace ChapeauUI
 
         #endregion
 
-        private System.Windows.Forms.Label labelKitchen;
-        private System.Windows.Forms.ListView kitchenListView;
+        private System.Windows.Forms.Label labelKitchenOrBar;
+        private System.Windows.Forms.ListView kitchenOrBarListView;
         private System.Windows.Forms.Button finishedOrderButton;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button buttonLogOut;
-        private System.Windows.Forms.Label labelBar;
-        private System.Windows.Forms.Button finishedDrinkButton;
         private System.Windows.Forms.Label labelBottomBar;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Label labelTopBar;

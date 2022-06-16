@@ -14,7 +14,7 @@ namespace ChapeauUI
 {
     public partial class KitchenAndBarOverview : Form
     {
-        Staff BartenderOrChef = new Staff();
+        private Staff BartenderOrChef = new Staff();
         private List<Order> ordersFoodList;
         private List<Order> ordersDrinkList;
         private SortingType sortingType;
@@ -23,10 +23,16 @@ namespace ChapeauUI
         public KitchenAndBarOverview(StaffJob staffJob)
         {
             InitializeComponent();
-            //radioButtonSortForwards.Enabled = true;
-            //this.BartenderOrChef.StaffJob = staffJob;
+            BartenderOrChef.StaffJob = staffJob;
+            if (BartenderOrChef.StaffJob == StaffJob.Chef)
+            {
+                labelKitchenOrBar.Text = "Kitchen";
+            }
+            else
+            {
+                labelKitchenOrBar.Text = "Bar";
+            }
             progressBarUpdate.Value = 100;
-
             //ProgressBar();
             listViewComments.Show();
             comboBoxThreeCourseMeal.Items.Add(MenuItemType.Starter);
@@ -60,13 +66,14 @@ namespace ChapeauUI
                 {
                     if (BartenderOrChef.StaffJob == StaffJob.Chef)
                     {
-
+                        labelKitchenOrBar.Text = "Kitchen";
                         OrderService orderService = new OrderService();
                         ordersFoodList = orderService.GetActiveFoodOrders();
                         FillListview(ordersFoodList);
                     }
                     else if (BartenderOrChef.StaffJob == StaffJob.Bartender)
                     {
+                        labelKitchenOrBar.Text = "Bar";
                         comboBoxThreeCourseMeal.Hide();
                         titleSelectThreeCourseMeal.Hide();
                         SelectAllMenuItemType.Hide();
@@ -92,7 +99,7 @@ namespace ChapeauUI
             this.Close();
         }
 
-        private void barListView_SelectedIndexChanged(object sender, EventArgs e)
+        private void kitchenOrBarListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             listViewComments.BeginUpdate();
             listViewComments.Show();
@@ -102,48 +109,28 @@ namespace ChapeauUI
             listViewComments.Columns.Add("Order ID", 100);
             listViewComments.Columns.Add("Menuitem ID", 100);
             listViewComments.Columns.Add("Comments", 500);
-            //listViewComments.Columns.Add("Description", 500);
-
-            for (int i = 0; i < kitchenListView.SelectedItems.Count; i++)
+            List<Order> ordersList = new List<Order>();// kijk in deze for
+            if (BartenderOrChef.StaffJob == StaffJob.Chef)
             {
-                int correctOrderIndex = ordersDrinkList.FindIndex(x => x.OrderId == Convert.ToInt32(kitchenListView.SelectedItems[i].SubItems[0].Text));
-                ListViewItem li = new ListViewItem(kitchenListView.SelectedItems[i].SubItems[0].Text);
-                li.SubItems.Add(kitchenListView.SelectedItems[i].SubItems[1].Text);
-                li.SubItems.Add(ordersDrinkList[correctOrderIndex].Comments);
-                //li.SubItems.Add(ordersFoodList[correctOrderIndex].OrderItems.Find(x => x.MenuItem.MenuItemId = ).Text);
-
-                listViewComments.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.HeaderSize);
-                listViewComments.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
-                listViewComments.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.HeaderSize);
-
-                listViewComments.Items.Add(li);
+                ordersList = ordersFoodList;
             }
-            ColorListView(listViewComments);
-            listViewComments.EndUpdate();
-        }
-        private void kitchenListview_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            listViewComments.BeginUpdate();
-            listViewComments.Show();
-            listViewComments.Clear();
-            listViewComments.View = View.Details;
-            listViewComments.FullRowSelect = true;
-            listViewComments.Columns.Add("Order ID", 100);
-            listViewComments.Columns.Add("Menuitem ID", 100);
-            listViewComments.Columns.Add("Comments", 500);
+            else
+            {
+                ordersList = ordersDrinkList;
+            }
             try
             {
-                for (int i = 0; i < kitchenListView.SelectedItems.Count; i++)
+
+                for (int i = 0; i < kitchenOrBarListView.SelectedItems.Count; i++)
                 {
-                    int correctOrderIndex = ordersFoodList.FindIndex(x => x.OrderId == Convert.ToInt32(kitchenListView.SelectedItems[i].SubItems[0].Text));
-                    ListViewItem li = new ListViewItem(kitchenListView.SelectedItems[i].SubItems[0].Text);
-                    li.SubItems.Add(kitchenListView.SelectedItems[i].SubItems[1].Text);
-                    li.SubItems.Add(ordersFoodList[correctOrderIndex].Comments);
 
-                    listViewComments.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    listViewComments.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    listViewComments.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    int correctOrderIndex = ordersList.FindIndex(x => x.OrderId == Convert.ToInt32(kitchenOrBarListView.SelectedItems[i].SubItems[0].Text));
+                    ListViewItem li = new ListViewItem(kitchenOrBarListView.SelectedItems[i].SubItems[0].Text);
+                    li.SubItems.Add(kitchenOrBarListView.SelectedItems[i].SubItems[1].Text);
+                    li.SubItems.Add(ordersList[correctOrderIndex].Comments);
 
+
+                    listViewComments.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
                     listViewComments.Items.Add(li);
                 }
             }
@@ -162,21 +149,21 @@ namespace ChapeauUI
         private void FillListview(List<Order> ordersList)
         {
 
-            kitchenListView.BeginUpdate();
-            kitchenListView.Clear();
-            kitchenListView.View = View.Details;
-            kitchenListView.FullRowSelect = true;
-            kitchenListView.Columns.Add("Order ID", 100);
-            kitchenListView.Columns.Add("MenuItem ID", 100);
-            kitchenListView.Columns.Add("Order", 500); //productname
-            kitchenListView.Columns.Add("Amount of order", 100);
-            kitchenListView.Columns.Add("Table", 200);
-            kitchenListView.Columns.Add("Duration of Order (hh:mm)", 200);
-            kitchenListView.Columns.Add("Time of ordering", 200);
+            kitchenOrBarListView.BeginUpdate();
+            kitchenOrBarListView.Clear();
+            kitchenOrBarListView.View = View.Details;
+            kitchenOrBarListView.FullRowSelect = true;
+            kitchenOrBarListView.Columns.Add("Order ID", 100);
+            kitchenOrBarListView.Columns.Add("MenuItem ID", 100);
+            kitchenOrBarListView.Columns.Add("Order", 100); //productname
+            kitchenOrBarListView.Columns.Add("Amount of order", 100);
+            kitchenOrBarListView.Columns.Add("Table", 200);
+            kitchenOrBarListView.Columns.Add("Duration of Order (hh:mm)", 200);
+            kitchenOrBarListView.Columns.Add("Time of ordering", 200);
             if (BartenderOrChef.StaffJob == StaffJob.Chef)
-                kitchenListView.Columns.Add("ThreeCourseMeal", 200);
+                kitchenOrBarListView.Columns.Add("ThreeCourseMeal", 200);
             else
-                kitchenListView.Columns.Add("Alcoholic", 100);
+                kitchenOrBarListView.Columns.Add("Alcoholic", 100);
             foreach (Order order in ordersList)
             {
                 TimeSpan timeOfOrder = DateTime.Now - order.TimePlaced;
@@ -195,21 +182,21 @@ namespace ChapeauUI
                         li.SubItems.Add(order.OrderItems[i].MenuItem.MenuItemType.ToString());
                     else
                         li.SubItems.Add(order.OrderItems[i].IsAlcoholic.ToString());
-                    kitchenListView.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    kitchenListView.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    kitchenListView.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
-                    kitchenListView.AutoResizeColumn(3, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    kitchenListView.AutoResizeColumn(4, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    kitchenListView.AutoResizeColumn(5, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    kitchenListView.AutoResizeColumn(6, ColumnHeaderAutoResizeStyle.ColumnContent);
-                    kitchenListView.AutoResizeColumn(7, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    kitchenOrBarListView.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    kitchenOrBarListView.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    kitchenOrBarListView.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
+                    kitchenOrBarListView.AutoResizeColumn(3, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    kitchenOrBarListView.AutoResizeColumn(4, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    kitchenOrBarListView.AutoResizeColumn(5, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    kitchenOrBarListView.AutoResizeColumn(6, ColumnHeaderAutoResizeStyle.HeaderSize);
+                   // kitchenListView.AutoResizeColumn(7, ColumnHeaderAutoResizeStyle.HeaderSize);
 
 
-                    kitchenListView.Items.Add(li);
+                    kitchenOrBarListView.Items.Add(li);
                 }
-                kitchenListView.EndUpdate();
+                kitchenOrBarListView.EndUpdate();
 
-                ColorListView(kitchenListView);
+                ColorListView(kitchenOrBarListView);
             }
         }
 
@@ -234,16 +221,16 @@ namespace ChapeauUI
             try
             {
 
-                if (kitchenListView.SelectedItems.Count == 0)
+                if (kitchenOrBarListView.SelectedItems.Count == 0)
                 {
                     MessageBox.Show("Please select an order!");
                     return;
                 }
-                for (int i = 0; i < kitchenListView.SelectedItems.Count; i++)
+                for (int i = 0; i < kitchenOrBarListView.SelectedItems.Count; i++)
                 {
                     Order order = new Order()
                     {
-                        OrderId = int.Parse(kitchenListView.SelectedItems[i].SubItems[0].Text),
+                        OrderId = int.Parse(kitchenOrBarListView.SelectedItems[i].SubItems[0].Text),
                         OrderItems = new List<OrderItem>
                         {
                             new OrderItem
@@ -251,8 +238,8 @@ namespace ChapeauUI
                                 Status = Status.Ready,
                                 MenuItem = new MenuItem()
                                 {
-                                    MenuItemId = int.Parse(kitchenListView.SelectedItems[i].SubItems[1].Text),
-                                    ProductName = kitchenListView.SelectedItems[i].SubItems[2].Text
+                                    MenuItemId = int.Parse(kitchenOrBarListView.SelectedItems[i].SubItems[1].Text),
+                                    ProductName = kitchenOrBarListView.SelectedItems[i].SubItems[2].Text
                                 }
                             }
                         }
@@ -273,10 +260,6 @@ namespace ChapeauUI
 
 
 
-        private void barListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-        {
-            //e.Graphics.FillRectangle(Brush);
-        }
 
 
 
@@ -544,8 +527,8 @@ namespace ChapeauUI
         private void SelectAllOnOrderID_Click(object sender, EventArgs e)
         {
 
-            kitchenListView.SelectedItems.Clear();
-            foreach (ListViewItem li in kitchenListView.Items)
+            kitchenOrBarListView.SelectedItems.Clear();
+            foreach (ListViewItem li in kitchenOrBarListView.Items)
             {
                 if (li.SubItems[0].Text == textBoxOrderId.Text)
                 {
@@ -560,8 +543,8 @@ namespace ChapeauUI
         private void button1_Click(object sender, EventArgs e)
         {
 
-            kitchenListView.SelectedItems.Clear();
-            foreach (ListViewItem li in kitchenListView.Items)
+            kitchenOrBarListView.SelectedItems.Clear();
+            foreach (ListViewItem li in kitchenOrBarListView.Items)
             {
                 if (li.SubItems[7].Text == comboBoxThreeCourseMeal.Text)
                 {
