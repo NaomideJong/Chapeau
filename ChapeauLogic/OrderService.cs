@@ -22,6 +22,14 @@ namespace ChapeauLogic
         {
             return orderDao.GetActiveFoodOrders();
         }
+        public List<Order> GetDrinkOrdersFromStatusDelivered()
+        {
+            return orderDao.GetDrinkOrdersFromStatusDelivered();
+        }
+        public List<Order> GetFoodOrdersFromStatusDelivered()
+        {
+            return orderDao.GetFoodOrdersFromStatusDelivered();
+        }
         public void GetUpdateStateIsFinished(Order order)
         {
             orderDao.UpdateStateIsFinished(order);

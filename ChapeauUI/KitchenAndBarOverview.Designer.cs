@@ -55,6 +55,8 @@ namespace ChapeauUI
             this.titleSelectThreeCourseMeal = new System.Windows.Forms.Label();
             this.comboBoxThreeCourseMeal = new System.Windows.Forms.ComboBox();
             this.SelectAllMenuItemType = new System.Windows.Forms.Button();
+            this.buttonGetOrderBack = new System.Windows.Forms.Button();
+            this.buttonGetThisOrder = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelKitchenOrBar
@@ -333,7 +335,37 @@ namespace ChapeauUI
             this.SelectAllMenuItemType.TabIndex = 39;
             this.SelectAllMenuItemType.Text = "Select all with specified type of meal";
             this.SelectAllMenuItemType.UseVisualStyleBackColor = true;
-            this.SelectAllMenuItemType.Click += new System.EventHandler(this.button1_Click);
+            this.SelectAllMenuItemType.Click += new System.EventHandler(this.SelectAllMenuItemType_Click);
+            // 
+            // buttonGetOrderBack
+            // 
+            this.buttonGetOrderBack.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonGetOrderBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.buttonGetOrderBack.FlatAppearance.BorderSize = 4;
+            this.buttonGetOrderBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonGetOrderBack.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.buttonGetOrderBack.Location = new System.Drawing.Point(1558, 845);
+            this.buttonGetOrderBack.Name = "buttonGetOrderBack";
+            this.buttonGetOrderBack.Size = new System.Drawing.Size(206, 59);
+            this.buttonGetOrderBack.TabIndex = 40;
+            this.buttonGetOrderBack.Text = "Get order back ";
+            this.buttonGetOrderBack.UseVisualStyleBackColor = false;
+            this.buttonGetOrderBack.Click += new System.EventHandler(this.buttonGetOrderBack_Click);
+            // 
+            // buttonGetThisOrder
+            // 
+            this.buttonGetThisOrder.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonGetThisOrder.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.buttonGetThisOrder.FlatAppearance.BorderSize = 4;
+            this.buttonGetThisOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonGetThisOrder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.buttonGetThisOrder.Location = new System.Drawing.Point(1794, 845);
+            this.buttonGetThisOrder.Name = "buttonGetThisOrder";
+            this.buttonGetThisOrder.Size = new System.Drawing.Size(82, 59);
+            this.buttonGetThisOrder.TabIndex = 41;
+            this.buttonGetThisOrder.Text = "Get this orders";
+            this.buttonGetThisOrder.UseVisualStyleBackColor = false;
+            this.buttonGetThisOrder.Click += new System.EventHandler(this.buttonGetThisOrder_Click);
             // 
             // KitchenAndBarOverview
             // 
@@ -343,6 +375,8 @@ namespace ChapeauUI
             this.BackgroundImage = global::ChapeauUI.Properties.Resources.winebgdesktop;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1924, 1033);
+            this.Controls.Add(this.buttonGetThisOrder);
+            this.Controls.Add(this.buttonGetOrderBack);
             this.Controls.Add(this.SelectAllMenuItemType);
             this.Controls.Add(this.comboBoxThreeCourseMeal);
             this.Controls.Add(this.titleSelectThreeCourseMeal);
@@ -403,5 +437,7 @@ namespace ChapeauUI
         private System.Windows.Forms.Label titleSelectThreeCourseMeal;
         private System.Windows.Forms.ComboBox comboBoxThreeCourseMeal;
         private System.Windows.Forms.Button SelectAllMenuItemType;
+        private System.Windows.Forms.Button buttonGetOrderBack;
+        private System.Windows.Forms.Button buttonGetThisOrder;
     }
 }

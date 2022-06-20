@@ -79,7 +79,35 @@ namespace ChapeauDAL
             };
             return ReadTablesFoodItem(ExecuteSelectQuery(query, sqlParameters));
         }
-
+        public List<Order> GetDrinkOrdersFromStatusDelivered()
+        {
+            string query = "SELECT [Order_Item].order_id, [Order_Item].menuItem_ID, [Order_Item].amount, " +
+                "[MenuItem].productName, [MenuItem].[description], [Order].comments, [Order_Item].[Status], [order].timePlaced, " +
+                "[order].table_Id, [order].table_Id, [Drink_Item].IsAlcoholic FROM[order_Item] JOIN MenuItem ON MenuItem.menuItem_ID = " +
+                "[Order_Item].menuItem_ID JOIN [Drink_Item] on [Drink_Item].menuItem_Id = [Order_Item].menuItem_ID " +
+                "JOIN[Order] ON[Order].order_id = [Order_Item].order_id WHERE[Order_Item].order_id in (SELECT order_id FROM[order_Item] " +
+                "WHERE[Order_Item].Status = 1) AND[order_Item].menuItem_ID IN(select menuItem_ID FROM Drink_Item) AND[Order_Item].Status = 1 AND [order].timePlaced > @DateNow " +
+                "ORDER BY[order].timePlaced; ";
+            SqlParameter[] sqlParameters = new SqlParameter[1]
+            {
+                 new SqlParameter("@DateNow", DateTime.Now.Date),
+            };
+            return ReadTablesDrinkItem(ExecuteSelectQuery(query, sqlParameters));
+        }
+        public List<Order> GetFoodOrdersFromStatusDelivered()
+        {
+            string query = "SELECT [Order_Item].order_id, [Order_Item].menuItem_ID, [Order_Item].amount, " +
+                "[MenuItem].productName, [MenuItem].[description], [Order].comments, [Order_Item].[Status], [order].timePlaced, " +
+                "[order].table_Id, [order].table_Id, [MenuItem].[threeCourseMealCode] FROM[order_Item] JOIN MenuItem ON MenuItem.menuItem_ID = [Order_Item].menuItem_ID " +
+                "JOIN[Order] ON[Order].order_id = [Order_Item].order_id WHERE[Order_Item].order_id in (SELECT order_id FROM[order_Item] " +
+                "WHERE[Order_Item].Status = 1) AND[order_Item].menuItem_ID NOT IN(select menuItem_ID FROM Drink_Item) AND[Order_Item].Status = 1 AND [order].timePlaced > @DateNow " +
+                "ORDER BY[order].timePlaced; ";
+            SqlParameter[] sqlParameters = new SqlParameter[1]
+            {
+                 new SqlParameter("@DateNow", DateTime.Now.Date),
+            };
+            return ReadTablesFoodItem(ExecuteSelectQuery(query, sqlParameters));
+        }
         public List<Order> GetLastOrders()
         {
             string query = "SELECT o.order_id, o.table_Id, o.comments, o.isFinished, MAX(o.timePlaced) AS timePlaced FROM [Order] AS o JOIN [Reservation] AS r ON r.reservation_id = o.reservation_Id WHERE r.IsPresent = 1 AND o.isDelivered IS NULL GROUP BY o.table_Id";

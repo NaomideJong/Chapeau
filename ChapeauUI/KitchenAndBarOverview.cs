@@ -14,7 +14,7 @@ namespace ChapeauUI
 {
     public partial class KitchenAndBarOverview : Form
     {
-        private Staff BartenderOrChef = new Staff();
+        private Staff BartenderOrChef;
         private List<Order> ordersFoodList;
         private List<Order> ordersDrinkList;
         private SortingType sortingType;
@@ -23,6 +23,7 @@ namespace ChapeauUI
         public KitchenAndBarOverview(StaffJob staffJob)
         {
             InitializeComponent();
+            BartenderOrChef = new Staff();
             BartenderOrChef.StaffJob = staffJob;
             if (BartenderOrChef.StaffJob == StaffJob.Chef)
             {
@@ -33,6 +34,8 @@ namespace ChapeauUI
                 labelKitchenOrBar.Text = "Bar";
             }
             progressBarUpdate.Value = 100;
+            buttonGetThisOrder.Hide();
+
             //ProgressBar();
             listViewComments.Show();
             comboBoxThreeCourseMeal.Items.Add(MenuItemType.Starter);
@@ -49,6 +52,7 @@ namespace ChapeauUI
                 progressBarUpdate.Value += 1;
             else
             {
+                listViewComments.Items.Clear();
                 progressBarUpdate.Value = 0;
                 if (sortingType == SortingType.duration)
                     sortButtonDuration_Click(sender, e);
@@ -121,27 +125,26 @@ namespace ChapeauUI
 
                 ordersList = orderService.GetActiveDrinkOrders();
             }
-            try
+            //try
+            //{
+
+            for (int i = 0; i < kitchenOrBarListView.SelectedItems.Count; i++)
             {
+                int correctOrderIndex = ordersList.FindIndex(x => x.OrderId == Convert.ToInt32(kitchenOrBarListView.SelectedItems[i].SubItems[0].Text));
+                ListViewItem li = new ListViewItem(kitchenOrBarListView.SelectedItems[i].SubItems[0].Text);
+                li.SubItems.Add(kitchenOrBarListView.SelectedItems[i].SubItems[1].Text);
+                li.SubItems.Add(ordersList[correctOrderIndex].Comments);
 
-                for (int i = 0; i < kitchenOrBarListView.SelectedItems.Count; i++)
-                {
-                    int correctOrderIndex = ordersList.FindIndex(x => x.OrderId == Convert.ToInt32(kitchenOrBarListView.SelectedItems[i].SubItems[0].Text));
-                    ListViewItem li = new ListViewItem(kitchenOrBarListView.SelectedItems[i].SubItems[0].Text);
-                    li.SubItems.Add(kitchenOrBarListView.SelectedItems[i].SubItems[1].Text);
-                    li.SubItems.Add(ordersList[correctOrderIndex].Comments);
+                listViewComments.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
-                    listViewComments.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    listViewComments.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    listViewComments.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.HeaderSize);
 
-                    listViewComments.Items.Add(li);
-                }
+                listViewComments.Items.Add(li);
             }
-            catch
-            {
+            //}
+            //catch
+            //{
 
-            }
+            //}
 
             ColorListView(listViewComments);
             listViewComments.EndUpdate();
@@ -165,7 +168,11 @@ namespace ChapeauUI
             kitchenOrBarListView.Columns.Add("Duration of Order (hh:mm)", 200);
             kitchenOrBarListView.Columns.Add("Time of ordering", 200);
             if (BartenderOrChef.StaffJob == StaffJob.Chef)
+            {
                 kitchenOrBarListView.Columns.Add("ThreeCourseMeal", 200);
+                sortButtonByAlcoholic.Hide();
+            }
+
             else
                 kitchenOrBarListView.Columns.Add("Alcoholic", 100);
             foreach (Order order in ordersList)
@@ -173,7 +180,6 @@ namespace ChapeauUI
                 TimeSpan timeOfOrder = DateTime.Now - order.TimePlaced;
 
                 for (int i = 0; i < order.OrderItems.Count; i++)
-
                 {
                     ListViewItem li = new ListViewItem(order.OrderId.ToString());
                     li.SubItems.Add(order.OrderItems[i].MenuItem.MenuItemId.ToString());
@@ -182,27 +188,21 @@ namespace ChapeauUI
                     li.SubItems.Add(order.TableId.ToString());
                     li.SubItems.Add(timeOfOrder.ToString(@"hh\:mm"));
                     li.SubItems.Add(order.TimePlaced.ToString());
-                    li.Tag = order;
-
                     if (BartenderOrChef.StaffJob == StaffJob.Chef)
                         li.SubItems.Add(order.OrderItems[i].MenuItem.MenuItemType.ToString());
                     else
                         li.SubItems.Add(order.OrderItems[i].IsAlcoholic.ToString());
-                    kitchenOrBarListView.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    kitchenOrBarListView.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    kitchenOrBarListView.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
-                    kitchenOrBarListView.AutoResizeColumn(3, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    kitchenOrBarListView.AutoResizeColumn(4, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    kitchenOrBarListView.AutoResizeColumn(5, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    kitchenOrBarListView.AutoResizeColumn(6, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    // kitchenListView.AutoResizeColumn(7, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    li.Tag = order;
 
                     kitchenOrBarListView.Items.Add(li);
                 }
-                kitchenOrBarListView.EndUpdate();
+                kitchenOrBarListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+                kitchenOrBarListView.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
 
                 ColorListView(kitchenOrBarListView);
             }
+            kitchenOrBarListView.EndUpdate();
+
         }
 
 
@@ -254,7 +254,7 @@ namespace ChapeauUI
                     orderService.GetUpdateStateIsFinished(order);
                     MessageBox.Show($"Order {order.OrderId}: {order.OrderItems[0].MenuItem.ProductName} has been succesfully finished\n" + "Notice has been sent to the waiter");
                 }
-                timerProgress_Tick(sender, e);
+                progressBarUpdate.Value = 100;
                 progressBarUpdate.Show();
             }
             catch
@@ -357,6 +357,7 @@ namespace ChapeauUI
             }
             else if (BartenderOrChef.StaffJob == StaffJob.Bartender)
             {
+                ordersDrinkList = orderService.GetActiveDrinkOrders();
                 if (radioButtonSortForwards.Checked)
                 {
                     foreach (Order order in ordersDrinkList)
@@ -391,6 +392,7 @@ namespace ChapeauUI
             sortingType = SortingType.table;
             if (BartenderOrChef.StaffJob == StaffJob.Chef)
             {
+                ordersFoodList = orderService.GetActiveFoodOrders();
 
                 if (radioButtonSortForwards.Checked)
                 {
@@ -409,6 +411,7 @@ namespace ChapeauUI
 
             else if (BartenderOrChef.StaffJob == StaffJob.Bartender)
             {
+                ordersDrinkList = orderService.GetActiveDrinkOrders();
                 if (radioButtonSortForwards.Checked)
                 {
                     ordersDrinkList = ordersDrinkList.OrderBy(x => x.TableId).ToList();
@@ -469,18 +472,27 @@ namespace ChapeauUI
         private void sortButtonByAlcoholic_Click(object sender, EventArgs e)
         {
             sortingType = SortingType.alcoholic;
+            ordersDrinkList = orderService.GetActiveDrinkOrders();
+
             if (radioButtonSortForwards.Checked)
             {
-                OrderService orderService = new OrderService();
-                ordersFoodList = orderService.GetActiveFoodOrders();
-                FillListview(ordersFoodList);
+                foreach (Order order in ordersDrinkList)
+                {
+                    order.OrderItems = order.OrderItems.OrderBy(x => x.IsAlcoholic).ToList();
+                }
+                ordersDrinkList = ordersDrinkList.OrderBy(x => x.OrderItems[0].IsAlcoholic).ToList();
+
             }
             else if (radioButtonSortBackwards.Checked)
             {
-                OrderService orderService = new OrderService();
-                FillListview(ordersDrinkList);
+                foreach (Order order in ordersDrinkList)
+                {
+                    order.OrderItems = order.OrderItems.OrderByDescending(x => x.IsAlcoholic).ToList();
+                }
+                ordersDrinkList = ordersDrinkList.OrderByDescending(x => x.OrderItems[0].IsAlcoholic).ToList();
 
             }
+            FillListview(ordersDrinkList);
 
         }
 
@@ -490,7 +502,6 @@ namespace ChapeauUI
 
             if (BartenderOrChef.StaffJob == StaffJob.Chef)
             {
-                OrderService orderService = new OrderService();
                 ordersDrinkList = orderService.GetActiveFoodOrders();
                 if (radioButtonSortForwards.Checked)
                 {
@@ -508,7 +519,6 @@ namespace ChapeauUI
             }
             else if (BartenderOrChef.StaffJob == StaffJob.Bartender)
             {
-                OrderService orderService = new OrderService();
                 ordersDrinkList = orderService.GetActiveDrinkOrders();
                 if (radioButtonSortForwards.Checked)
                 {
@@ -545,7 +555,7 @@ namespace ChapeauUI
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void SelectAllMenuItemType_Click(object sender, EventArgs e)
         {
 
             kitchenOrBarListView.SelectedItems.Clear();
@@ -556,6 +566,101 @@ namespace ChapeauUI
                     li.Selected = true;
                 }
             }
+        }
+
+        private void buttonGetThisOrder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (listViewComments.SelectedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select an order!");
+                    return;
+                }
+                for (int i = 0; i < listViewComments.SelectedItems.Count; i++)
+                {
+                    Order order = new Order()
+                    {
+                        OrderId = int.Parse(listViewComments.SelectedItems[i].SubItems[0].Text),
+                        OrderItems = new List<OrderItem>
+                        {
+                            new OrderItem
+                            {
+                                Status = Status.NotReady,
+                                MenuItem = new MenuItem()
+                                {
+                                    MenuItemId = int.Parse(listViewComments.SelectedItems[i].SubItems[1].Text),
+                                    ProductName = listViewComments.SelectedItems[i].SubItems[2].Text
+                                }
+                            }
+                        }
+                    };
+
+                    OrderService orderService = new OrderService();
+                    orderService.GetUpdateStateIsFinished(order);
+                    MessageBox.Show($"Order {order.OrderId}: {order.OrderItems[0].MenuItem.ProductName} has been succesfully retrieved");
+                }
+                progressBarUpdate.Value = 100;
+                buttonGetThisOrder.Hide();
+            }
+            catch
+            {
+                MessageBox.Show("Please make sure to select an order to retrieve");
+            }
+            kitchenOrBarListView_SelectedIndexChanged(sender, e);
+
+        }
+
+        private void buttonGetOrderBack_Click(object sender, EventArgs e)
+        {
+
+            buttonGetThisOrder.Show();
+            listViewComments.BeginUpdate();
+            listViewComments.Clear();
+            listViewComments.View = View.Details;
+            listViewComments.FullRowSelect = true;
+            listViewComments.Columns.Add("Order ID", 100);
+            listViewComments.Columns.Add("MenuItem ID", 100);
+            listViewComments.Columns.Add("Order", 100); //productname
+            listViewComments.Columns.Add("Table", 200);
+            listViewComments.Columns.Add("Status", 200);
+
+            List<Order> ordersList;// kijk in deze for
+            //OrderService orderService = new OrderService();
+
+            if (BartenderOrChef.StaffJob == StaffJob.Chef)
+            {
+                ordersList = orderService.GetFoodOrdersFromStatusDelivered();
+            }
+            else
+            {
+
+                ordersList = orderService.GetDrinkOrdersFromStatusDelivered();
+            }
+            foreach (Order order in ordersList)
+            {
+                for (int i = 0; i < order.OrderItems.Count; i++)
+                {
+                    ListViewItem li = new ListViewItem(order.OrderId.ToString());
+                    li.SubItems.Add(order.OrderItems[i].MenuItem.MenuItemId.ToString());
+                    li.SubItems.Add(order.OrderItems[i].MenuItem.ProductName);
+                    li.SubItems.Add(order.TableId.ToString());
+                    li.SubItems.Add(order.OrderItems[i].Status.ToString());
+
+                    li.Tag = order;
+
+                    listViewComments.Items.Add(li);
+                }
+                listViewComments.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+                listViewComments.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
+                listViewComments.EndUpdate();
+
+                ColorListView(listViewComments);
+
+            }
+            listViewComments.EndUpdate();
+
         }
     }
 
