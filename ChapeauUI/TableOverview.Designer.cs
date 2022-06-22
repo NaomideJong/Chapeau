@@ -690,13 +690,13 @@ namespace ChapeauUI
             // panelsPnl
             // 
             this.panelsPnl.BackColor = System.Drawing.Color.Transparent;
-            this.panelsPnl.Controls.Add(this.buttonBack);
-            this.panelsPnl.Controls.Add(this.bottomBarLabel);
-            this.panelsPnl.Controls.Add(this.TableOverviewPnl);
             this.panelsPnl.Controls.Add(this.notificationsPnl);
+            this.panelsPnl.Controls.Add(this.buttonBack);
+            this.panelsPnl.Controls.Add(this.TableOverviewPnl);
+            this.panelsPnl.Controls.Add(this.markReservationPresentPnl);
+            this.panelsPnl.Controls.Add(this.bottomBarLabel);
             this.panelsPnl.Controls.Add(this.makeReservationPnl);
             this.panelsPnl.Controls.Add(this.startMenuPnl);
-            this.panelsPnl.Controls.Add(this.markReservationPresentPnl);
             this.panelsPnl.Location = new System.Drawing.Point(0, 51);
             this.panelsPnl.Name = "panelsPnl";
             this.panelsPnl.Size = new System.Drawing.Size(720, 1440);
