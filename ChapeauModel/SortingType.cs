@@ -8,6 +8,6 @@ namespace ChapeauModel
 {
     public enum SortingType
     {
-        orderID, duration, table, orderName, alcoholic, amount
+        none, orderID, duration, table, orderName, alcoholic, amount
     }
 }
