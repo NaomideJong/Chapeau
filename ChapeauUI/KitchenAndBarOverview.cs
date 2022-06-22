@@ -223,6 +223,7 @@ namespace ChapeauUI
         private void sortButtonOrder_Click(object sender, EventArgs e)
         {
             sortingType = SortingType.orderName;
+            
             if (radioButtonSortForwards.Checked)
             {
                 foreach (Order order in orderFoodOrDrinkList)
